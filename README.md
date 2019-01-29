@@ -9,7 +9,5 @@ The Test End Zoom screenshot is just an indication of the final zoom level. Ther
 If doing less than 50~ screenshots the algorithm may not zoom out to the End Zoom setting.
 The idea of the auto-calculating zoom is to ensure you have the required number of images for the video frames and that they zoom out progressively.
 
-This mod does not support multiple players at present. If required please request.
-
 When taking screenshots the game will pause for a while (seconds to minutes) based on the number of screenshots and resolution. This is standard Factorio behaviour and so it is advised to use this mod only on local games to avoid disconnects.
 There are some oddities with taking screenshots and certain setting combinations, all of these apply equally to this mod, i.e. enabling GUI and using a resolution different to your display resolution.
