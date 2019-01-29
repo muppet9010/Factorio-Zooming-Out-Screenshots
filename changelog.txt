@@ -1,2 +1,10 @@
+0.1.1
+	Fixed that the Test Screenshot buttons did nothing when clicked
+	Added example zoom out video link to readme
+	Fixed some missing tooltips
+	When Taking All Screenshots it waits a tick for the gui to disappear before the screenshots are taken
+	Screenshots only taken by the player who uses the GUI.
+---------------------------------------------------------------------------------------------------
+
 0.1.0
 	Initial Release

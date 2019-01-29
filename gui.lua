@@ -7,8 +7,8 @@ function Gui.GuiClickedEvent(eventData)
     if clickedElement.name == "zooming-screenshot-mod-button" then Gui.ToggleGui(player)
     elseif clickedElement.name == "close-zooming-screenshot-gui-button" then Gui.CloseGui(player)
     elseif clickedElement.name == "zooming-screenshot-take-all-button" then Gui.TakeAllScreenShots(player)
-    elseif clickedElement.name == "start-zoom-test-screenshot" then Gui.TakeStartZoomTestScreenshot(player)
-    elseif clickedElement.name == "end-zoom-test-screenshot" then Gui.TakeEndZoomTestScreenshot(player) end
+    elseif clickedElement.name == "zooming-screenshot-start-zoom-test-screenshot" then Gui.TakeStartZoomTestScreenshot(player)
+    elseif clickedElement.name == "zooming-screenshot-end-zoom-test-screenshot" then Gui.TakeEndZoomTestScreenshot(player) end
 end
 
 
@@ -89,12 +89,12 @@ function Gui.OpenGui(player)
     optionsTable.add{type="label", name="zooming-screenshot-resolution-label", caption={"gui-caption.resolution"}, tooltip={"gui-tooltip.resolution"}}
     local resolutionFlow = optionsTable.add{type="flow", name="zooming-screenshot-resolution-flow", direction="horizontal"}
     resolutionFlow.style.width = 150
-    local resolutionXInput = resolutionFlow.add{type="textfield", name="zooming-screenshot-resolution-x", text=screenshotSettings["zooming-screenshot-resolution-x"], caption={"gui-caption.resolution-x"}}
+    local resolutionXInput = resolutionFlow.add{type="textfield", name="zooming-screenshot-resolution-x", text=screenshotSettings["zooming-screenshot-resolution-x"], tooltip={"gui-tooltip.resolution-x"}}
     resolutionXInput.style.width = 70
     local resolutionRightFlow = resolutionFlow.add{type="flow", name="zooming-screenshot-resolution-flow-right", direction="horizontal"}
     resolutionRightFlow.style.align="right"
     resolutionRightFlow.style.horizontally_stretchable = true
-    local resolutionYInput = resolutionRightFlow.add{type="textfield", name="zooming-screenshot-resolution-y", text=screenshotSettings["zooming-screenshot-resolution-y"], caption={"gui-caption.resolution-x"}}
+    local resolutionYInput = resolutionRightFlow.add{type="textfield", name="zooming-screenshot-resolution-y", text=screenshotSettings["zooming-screenshot-resolution-y"], tooltip={"gui-tooltip.resolution-y"}}
     resolutionYInput.style.width = 70
     optionsTable.add{type="label", name="zooming-screenshot-resolution-padder"}
 
@@ -122,6 +122,14 @@ end
 
 function Gui.TakeAllScreenShots(player)
     Gui.CloseGui(player)
+    local triggerTick = game.tick + 1
+    script.on_nth_tick(triggerTick, function() Gui.TakeScheduledScreenshots(player) end)
+end
+
+
+function Gui.TakeScheduledScreenshots(player)
+    script.on_nth_tick(game.tick, nil)
+    if not player.valid then return end
     local screenshotSettings = global.MOD.guiScreenshotSettings[player.index]
     local startZoom = screenshotSettings["zooming-screenshot-start-zoom"]
     local endZoom = screenshotSettings["zooming-screenshot-end-zoom"]
@@ -155,6 +163,7 @@ function Gui.TakeScreenshot(player, zoom, name)
     local screenshotSettings = global.MOD.guiScreenshotSettings[player.index]
     local screenshotPosition = {x=player.position.x, y = player.position.y-0.6}
     game.take_screenshot{
+        by_player = player,
         position = screenshotPosition,
         resolution = {
             x = screenshotSettings["zooming-screenshot-resolution-x"],
