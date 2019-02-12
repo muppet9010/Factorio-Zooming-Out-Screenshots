@@ -1,3 +1,7 @@
+0.1.2
+	Fixed bug with laoding the mod on to an existing map that could cause an error on use of the mod show gui button
+---------------------------------------------------------------------------------------------------
+
 0.1.1
 	Fixed that the Test Screenshot buttons did nothing when clicked
 	Added example zoom out video link to readme
