@@ -1,14 +1,33 @@
-0.1.2
-	Fixed bug with laoding the mod on to an existing map that could cause an error on use of the mod show gui button
 ---------------------------------------------------------------------------------------------------
-
-0.1.1
-	Fixed that the Test Screenshot buttons did nothing when clicked
-	Added example zoom out video link to readme
-	Fixed some missing tooltips
-	When Taking All Screenshots it waits a tick for the gui to disappear before the screenshots are taken
-	Screenshots only taken by the player who uses the GUI.
+Version: 17.1.3
+Date: 2019-03-11
+  Features:
+    - Updated to support 0.17
+    - Added support for the Shortcut bar to open the mods GUI.
+  Changes:
+    - End Zoom changed to be Target End Zoom. The Target End Zoom Test Screenshot button now uses the Take All Screenshot maths to calculate the end zoom. So the test will match the real screenshots.
+    - Removed the Toggle mod GUI button from top left.
+  Info:
+    - changelog changed to new format
+    - minor refactoring of code
 ---------------------------------------------------------------------------------------------------
-
-0.1.0
-	Initial Release
+Version: 0.1.2
+Date: 2019-02-12
+  Bugfixes:
+    - Fixed bug with laoding the mod on to an existing map that could cause an error on use of the mod show gui button
+---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2019-01-29
+  Changes:
+    - Screenshots only taken by the player who uses the GUI.
+  Bugfixes:
+    - Fixed that the Test Screenshot buttons did nothing when clicked
+    - Fixed some missing tooltips
+    - When Taking All Screenshots it waits a tick for the gui to disappear before the screenshots are taken
+  Info:
+    - Added example zoom out video link to readme
+---------------------------------------------------------------------------------------------------
+Version: 0.1.0
+Date: 2019-01-28
+  Features:
+    - Initial Release

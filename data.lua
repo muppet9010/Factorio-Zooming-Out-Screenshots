@@ -1,12 +1,33 @@
 local Constants = require("constants")
 
+
 data:extend({
+    {
+        type = "shortcut",
+        name = "zooming-screenshot",
+        action = "lua",
+        icon = {
+            filename = Constants.AssetModName .. "/graphics/gui/camera-button.png",
+            width = 36,
+            height = 36
+        },
+        small_icon = {
+            filename = Constants.AssetModName .. "/graphics/gui/camera-button.png",
+            width = 36,
+            height = 36
+        },
+        disabled_small_icon = {
+            filename = Constants.AssetModName .. "/graphics/gui/camera-button-disabled.png",
+            width = 36,
+            height = 36
+        }
+    },
     {
         type = "sprite",
         name = "zooming-screenshit-mod-icon",
-        filename = Constants.AssetModName .. "/graphics/gui/camera.png",
-        width = 600,
-        height = 600
+        filename = Constants.AssetModName .. "/graphics/gui/camera-button.png",
+        width = 36,
+        height = 36
     }
 })
 

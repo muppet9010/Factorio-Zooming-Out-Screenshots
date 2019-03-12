@@ -1,3 +1,4 @@
+local Screenshot = require("screenshot")
 local Gui = {}
 
 
@@ -24,13 +25,12 @@ end
 
 
 function Gui.GuiClickedEvent(eventData)
-    local player = game.players[eventData.player_index]
+    local player = game.get_player(eventData.player_index)
     local clickedElement = eventData.element
-    if clickedElement.name == "zooming-screenshot-mod-button" then Gui.ToggleGui(player)
-    elseif clickedElement.name == "close-zooming-screenshot-gui-button" then Gui.CloseGui(player)
+    if clickedElement.name == "close-zooming-screenshot-gui-button" then Gui.CloseGui(player)
     elseif clickedElement.name == "zooming-screenshot-take-all-button" then Gui.TakeAllScreenShots(player)
-    elseif clickedElement.name == "zooming-screenshot-start-zoom-test-screenshot" then Gui.TakeStartZoomTestScreenshot(player)
-    elseif clickedElement.name == "zooming-screenshot-end-zoom-test-screenshot" then Gui.TakeEndZoomTestScreenshot(player) end
+    elseif clickedElement.name == "zooming-screenshot-start-zoom-test-screenshot" then Screenshot.TakeStartZoomTestScreenshot(player)
+    elseif clickedElement.name == "zooming-screenshot-end-zoom-test-screenshot" then Screenshot.TakeEndZoomTestScreenshot(player) end
 end
 
 
@@ -42,6 +42,7 @@ function Gui.GuiTextChangedEvent(eventData)
     end
 end
 
+
 function Gui.GuiSelectionStateChangedEvent(eventData)
     local editedElement = eventData.element
     local screenshotSettings = global.MOD.guiScreenshotSettings[eventData.player_index]
@@ -51,19 +52,17 @@ function Gui.GuiSelectionStateChangedEvent(eventData)
 end
 
 
-function Gui.RecreateModButton(player)
-    local modFlow = player.gui.top["zooming-screenshot-mod-flow"]
-    if modFlow then modFlow.destroy() end
-    modFlow = player.gui.top.add{type="flow", name="zooming-screenshot-mod-flow", style = "zs_padded_horizontal_flow", direction = "horizontal"}
-    modFlow.add{type="sprite-button", name="zooming-screenshot-mod-button", tooltip={"gui-tooltip.mod-toggle-button"}, sprite="zooming-screenshit-mod-icon", style = "zs_mod_button_sprite"}
-
-    Gui.CloseGui(player)
+function Gui.ShortcutClicked(eventData)
+    local shortcutName = eventData.prototype_name
+    if shortcutName ~= "zooming-screenshot" then return end
+    local player = game.get_player(eventData.player_index)
+    Gui.ToggleGui(player)
 end
 
 
-function Gui.RecreateModButtonForAll()
+function Gui.CloseGuiForAll()
     for _, player in pairs(game.players) do
-        Gui.RecreateModButton(player)
+        Gui.CloseGui(player)
     end
 end
 
@@ -114,7 +113,7 @@ function Gui.OpenGui(player)
     local resolutionXInput = resolutionFlow.add{type="textfield", name="zooming-screenshot-resolution-x", text=screenshotSettings["zooming-screenshot-resolution-x"], tooltip={"gui-tooltip.resolution-x"}}
     resolutionXInput.style.width = 70
     local resolutionRightFlow = resolutionFlow.add{type="flow", name="zooming-screenshot-resolution-flow-right", direction="horizontal"}
-    resolutionRightFlow.style.align="right"
+    resolutionRightFlow.style.horizontal_align="right"
     resolutionRightFlow.style.horizontally_stretchable = true
     local resolutionYInput = resolutionRightFlow.add{type="textfield", name="zooming-screenshot-resolution-y", text=screenshotSettings["zooming-screenshot-resolution-y"], tooltip={"gui-tooltip.resolution-y"}}
     resolutionYInput.style.width = 70
@@ -137,73 +136,15 @@ function Gui.OpenGui(player)
     bottomSection.add{type="button", name="close-zooming-screenshot-gui-button", caption={"gui-caption.close-gui-button"}}
     local bottomSectionRightFlow = bottomSection.add{type="flow", name="zooming-screenshot-bottom-section-right-flow"}
     bottomSectionRightFlow.style.horizontally_stretchable = true
-    bottomSectionRightFlow.style.align = "right"
+    bottomSectionRightFlow.style.horizontal_align = "right"
     bottomSectionRightFlow.add{type="button", name="zooming-screenshot-take-all-button", caption={"gui-caption.take-all-screenshots-button"}}
 end
 
 
 function Gui.TakeAllScreenShots(player)
     Gui.CloseGui(player)
-    local triggerTick = game.tick + 1
-    script.on_nth_tick(triggerTick, function() Gui.TakeScheduledScreenshots(player) end)
+    Screenshot.TakeAllScreenShots(player)
 end
 
-
-function Gui.TakeScheduledScreenshots(player)
-    script.on_nth_tick(game.tick, nil)
-    if not player.valid then return end
-    local screenshotSettings = global.MOD.guiScreenshotSettings[player.index]
-    local startZoom = screenshotSettings["zooming-screenshot-start-zoom"]
-    local endZoom = screenshotSettings["zooming-screenshot-end-zoom"]
-    local screenshotCount = screenshotSettings["zooming-screenshot-count"]
-    local dividedValue = endZoom/startZoom
-    local naturalLog = math.log(dividedValue)
-    local decay = naturalLog/(screenshotCount-1)
-    local zoomDevider = 1 + decay
-
-    local zoom = startZoom
-    for shotCount=1, screenshotCount do
-        Gui.TakeScreenshot(player, zoom, "ZoomingScreenshot_" .. shotCount)
-        zoom = zoom * zoomDevider
-    end
-end
-
-
-function Gui.TakeStartZoomTestScreenshot(player)
-    local zoom = global.MOD.guiScreenshotSettings[player.index]["zooming-screenshot-start-zoom"]
-    Gui.TakeScreenshot(player, zoom, "Start_Zoom_" .. zoom)
-end
-
-
-function Gui.TakeEndZoomTestScreenshot(player)
-    local zoom = global.MOD.guiScreenshotSettings[player.index]["zooming-screenshot-end-zoom"]
-    Gui.TakeScreenshot(player, zoom, "End_Zoom_" .. zoom)
-end
-
-
-function Gui.TakeScreenshot(player, zoom, name)
-    local screenshotSettings = global.MOD.guiScreenshotSettings[player.index]
-    local screenshotPosition = {x=player.position.x, y = player.position.y-0.6}
-    game.take_screenshot{
-        by_player = player,
-        position = screenshotPosition,
-        resolution = {
-            x = screenshotSettings["zooming-screenshot-resolution-x"],
-            y = screenshotSettings["zooming-screenshot-resolution-y"]
-        },
-        zoom = zoom,
-        show_gui = Gui.BooleanDropdownIndexToBool(screenshotSettings["zooming-screenshot-show-gui"]),
-        show_entity_info = Gui.BooleanDropdownIndexToBool(screenshotSettings["zooming-screenshot-show-entity-info"]),
-        anti_alias = Gui.BooleanDropdownIndexToBool(screenshotSettings["zooming-screenshot-anti-alias"]),
-        path=name..".png"
-    }
-end
-
-
-function Gui.BooleanDropdownIndexToBool(value)
-    if value == 1 then return true
-    elseif value == 2 then return false
-    else return nil end
-end
 
 return Gui
