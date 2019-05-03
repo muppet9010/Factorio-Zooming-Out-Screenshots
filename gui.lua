@@ -1,12 +1,11 @@
 local Screenshot = require("screenshot")
 local Gui = {}
 
-function Gui.GenerateDefaultSettings(player)
-    local player_index = player.index
-    if global.MOD.guiScreenshotSettings[player_index] == nil then
-        global.MOD.guiScreenshotSettings[player_index] = {}
+function Gui.GenerateDefaultSettings(playerID)
+    if global.MOD.guiScreenshotSettings[playerID] == nil then
+        global.MOD.guiScreenshotSettings[playerID] = {}
     end
-    local guiScreenshotSettings = global.MOD.guiScreenshotSettings[player_index]
+    local guiScreenshotSettings = global.MOD.guiScreenshotSettings[playerID]
     if guiScreenshotSettings["zooming-screenshot-start-zoom"] == nil then
         guiScreenshotSettings["zooming-screenshot-start-zoom"] = 20
     end
@@ -35,7 +34,7 @@ end
 
 function Gui.GenerateDefaultSettingsForAll()
     for _, player in pairs(game.players) do
-        Gui.GenerateDefaultSettings(player)
+        Gui.GenerateDefaultSettings(player.index)
     end
 end
 
