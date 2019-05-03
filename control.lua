@@ -10,8 +10,7 @@ local function MakeGlobals()
 end
 
 local function PlayerJoinedEvent(eventData)
-    local player = game.get_player(eventData.player_index)
-    Gui.GenerateDefaultSettings(player)
+    Gui.GenerateDefaultSettings(eventData.player_index)
 end
 
 local function OnInit()
