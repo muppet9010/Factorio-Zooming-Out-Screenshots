@@ -58,6 +58,13 @@ function Gui.GuiTextChangedEvent(eventData)
     if screenshotSettings[editedElement.name] ~= nil then
         screenshotSettings[editedElement.name] = editedElement.text
     end
+    local endZoomNumber = tonumber(screenshotSettings["zooming-screenshot-end-zoom"])
+    if endZoomNumber ~= nil and endZoomNumber < 0.04 then
+        local player = game.get_player(eventData.player_index)
+        local guiElement = player.gui.left["zooming-screenshot-gui-flow"]["zooming-screenshot-gui-frame"]["zooming-screenshot-options-table"]["zooming-screenshot-end-zoom"]
+        guiElement.text = "0.04"
+        screenshotSettings["zooming-screenshot-end-zoom"] = "0.04"
+    end
 end
 
 function Gui.GuiSelectionStateChangedEvent(eventData)

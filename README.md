@@ -2,6 +2,8 @@
 
 Takes a series of screenshots steadily zooming out from the player's location. Configurable start and target end zoom levels plus the number of screenshots to take between them via simple GUI. Zooms out at an auto-calculated rate of decay (exponential). Designed for creating zooming out videos or montages. The mod isn't 100% accurate on the final zoom level see notes, but is close enough.
 
+Minimum Factorio final zoom value is 0.04 in reality since Factorio 0.18. This is restricted and forced in a slightly clunky way at present within the mod. If there's demand this mod will get refreshed.
+
 Example Screenshot Montage made to Video
 ![Example Screenshot Montage made to Video](https://media.giphy.com/media/kWFmXsGmysEnTUkCSm/giphy.gif)
 
