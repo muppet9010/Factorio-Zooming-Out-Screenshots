@@ -1,13 +1,13 @@
 {
     "name": "zooming_out_screenshots",
-    "version": "17.1.4",
+    "version": "18.1.4",
     "title": "Zooming Out Screenshots",
     "author": "Muppet9010",
     "contact": "",
     "homepage": "https://mods.factorio.com/mod/zooming_out_screenshots",
-    "factorio_version": "0.17",
+    "factorio_version": "0.18",
     "dependencies": [
-        "base >= 0.17"
+        "base >= 0.18"
     ],
     "description": "Take a series of screenshots steadily zooming out from a location"
 }

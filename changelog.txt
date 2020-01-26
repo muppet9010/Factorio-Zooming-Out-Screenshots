@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
-Version: 17.1.4
-Date: 2019-05-03
+Version: 18.1.4
+Date: 2020-01-26
   Features:
+    - updated to Factorio 0.18 as-is
   Changes:
   Bugfixes:
   Info:
