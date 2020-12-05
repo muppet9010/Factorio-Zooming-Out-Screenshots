@@ -19,7 +19,7 @@ function Gui.GenerateDefaultSettings(playerID)
         guiScreenshotSettings["zooming-screenshot-resolution-x"] = 1024
     end
     if guiScreenshotSettings["zooming-screenshot-resolution-y"] == nil then
-        guiScreenshotSettings["zooming-screenshot-resolution-y"] = 765
+        guiScreenshotSettings["zooming-screenshot-resolution-y"] = 768
     end
     if guiScreenshotSettings["zooming-screenshot-show-gui"] == nil then
         guiScreenshotSettings["zooming-screenshot-show-gui"] = 2
@@ -28,7 +28,7 @@ function Gui.GenerateDefaultSettings(playerID)
         guiScreenshotSettings["zooming-screenshot-show-entity-info"] = 2
     end
     if guiScreenshotSettings["zooming-screenshot-anti-alias"] == nil then
-        guiScreenshotSettings["zooming-screenshot-anti-alias"] = 2
+        guiScreenshotSettings["zooming-screenshot-anti-alias"] = 1
     end
 end
 

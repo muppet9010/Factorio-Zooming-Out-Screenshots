@@ -1,0 +1,3 @@
+Next:
+	- Update the whole mod to be far better logic & structure
+	- Switch to use the Util library for GUI & Styles
